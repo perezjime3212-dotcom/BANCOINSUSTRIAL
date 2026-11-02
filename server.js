@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Función auxiliar para Telegram
 async function sendTelegramMessage(text) {
-  const url = `[https://api.telegram.org/bot$](https://api.telegram.org/bot$){TELEGRAM_BOT_TOKEN}/sendMessage`;
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -27,9 +27,12 @@ async function sendTelegramMessage(text) {
         parse_mode: 'Markdown'
       })
     });
-    return await response.json();
+    
+    const data = await response.json();
+    console.log('Respuesta de Telegram:', data); // <--- ESTO TE DIRÁ EL ERROR EXACTO
+    return data;
   } catch (error) {
-    console.error('Error al enviar mensaje a Telegram:', error);
+    console.error('Error de red al conectar con Telegram:', error);
   }
 }
 
